@@ -12,28 +12,59 @@
     }
 
     html, body {
+      width: 100%;
+      height: 100%;
       background-color: #000;
-      color: #fff;
       font-family: 'Helvetica Neue', Helvetica, sans-serif;
-      height: 100vh;
       overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      padding: 2rem;
-      line-height: 1.8;
-      text-align: center;
       position: relative;
-      z-index: 1;
     }
 
-    h1, p, a {
+    /* SVG背景アニメーション */
+    .bg {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    /* テキスト表示部分 */
+    .content {
       position: relative;
       z-index: 2;
+      color: #fff;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      text-align: center;
     }
 
-    a {
+    .content h1,
+    .content p,
+    .content a {
+      opacity: 0;
+      animation: fadein 1.5s ease-out forwards;
+    }
+
+    .content h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1.2rem;
+      letter-spacing: 0.1em;
+      animation-delay: 0.3s;
+    }
+
+    .content p {
+      font-size: 1.1rem;
+      opacity: 0.85;
+      margin-bottom: 2rem;
+      animation-delay: 0.6s;
+    }
+
+    .content a {
       display: inline-block;
       padding: 0.9rem 2rem;
       border: 1px solid #fff;
@@ -42,60 +73,60 @@
       transition: all 0.3s ease;
       font-size: 0.95rem;
       letter-spacing: 0.05em;
+      animation-delay: 0.9s;
     }
 
-    a:hover {
+    .content a:hover {
       background-color: #fff;
       color: #000;
     }
 
-    .liquid-bg {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
+    #observer-id {
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      opacity: 0.6;
+      animation: fadein 1.5s ease-out forwards;
+      animation-delay: 1.2s;
     }
 
-    .liquid-bg svg {
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
-
-    .wave {
-      animation: waveMotion 8s ease-in-out infinite;
-      transform-origin: center;
-    }
-
-    @keyframes waveMotion {
-      0%, 100% { transform: translateY(0) scaleX(1); }
-      50% { transform: translateY(10px) scaleX(1.05); }
+    @keyframes fadein {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
-  <div class="liquid-bg">
-    <svg viewBox="0 0 1200 800" preserveAspectRatio="none">
-      <path class="wave" fill="#111" fill-opacity="0.6" d="
-        M0,400 
-        Q300,350 600,400 
-        T1200,400 
-        V800 
-        H0 
-        Z">
-      </path>
-    </svg>
-  </div>
 
-  <h1>VOID.RUN</h1>
-  <p>今日の言葉：<br><strong>『 沈黙が咲いた夜、だれも知らない場所へ。』</strong></p>
-  <a href="https://paypal.me/dowadowa" target="_blank">捧げる（Support the Void）</a>
-  <p id="observer-id" style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.6;"></p>
+  <!-- 背景：ゆらめく黒い液体風SVG -->
+  <svg class="bg" preserveAspectRatio="none" viewBox="0 0 100 100">
+    <defs>
+      <radialGradient id="grad" cx="50%" cy="50%" r="80%">
+        <stop offset="0%" stop-color="#111"/>
+        <stop offset="100%" stop-color="#000"/>
+      </radialGradient>
+      <filter id="wobble">
+        <feTurbulence id="turb" baseFrequency="0.01 0.01" numOctaves="3" seed="2">
+          <animate attributeName="baseFrequency" dur="12s" values="0.01 0.01; 0.02 0.005; 0.01 0.01" repeatCount="indefinite" />
+        </feTurbulence>
+        <feDisplacementMap in="SourceGraphic" scale="20"/>
+      </filter>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#grad)" filter="url(#wobble)"/>
+  </svg>
+
+  <!-- コンテンツ部分 -->
+  <div class="content">
+    <h1>VOID.RUN</h1>
+    <p>今日の言葉：<br><strong>『 沈黙が咲いた夜、だれも知らない場所へ。』</strong></p>
+    <a href="https://paypal.me/dowadowa" target="_blank">捧げる（Support the Void）</a>
+    <p id="observer-id"></p>
+  </div>
 
   <script>
     const observerNumber = String(Math.floor(Math.random() * 999) + 1).padStart(3, '0');
     document.getElementById("observer-id").textContent = `観測番号： #${observerNumber}`;
   </script>
+
 </body>
 </html>
+
