@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>VOID.RUN</title>
+
+  <!-- 中二病風日本語フォント -->
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kurenaido&display=swap" rel="stylesheet">
+
   <style>
     * {
       margin: 0;
@@ -15,68 +19,44 @@
       width: 100%;
       height: 100%;
       background-color: #000;
-      font-family: 'Helvetica Neue', Helvetica, sans-serif;
-      overflow: hidden;
-      position: relative;
-    }
-
-    /* SVG背景アニメーション */
-    .bg {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-    }
-
-    /* テキスト表示部分 */
-    .content {
-      position: relative;
-      z-index: 2;
+      font-family: 'Zen Kurenaido', sans-serif;
       color: #fff;
-      height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       padding: 2rem;
       text-align: center;
+      animation: fadein 1.5s ease-out;
+      overflow: hidden;
+      position: relative;
     }
 
-    .content h1,
-    .content p,
-    .content a {
-      opacity: 0;
-      animation: fadein 1.5s ease-out forwards;
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.15em;
     }
 
-    .content h1 {
-      font-size: 2.5rem;
-      margin-bottom: 1.2rem;
-      letter-spacing: 0.1em;
-      animation-delay: 0.3s;
-    }
-
-    .content p {
-      font-size: 1.1rem;
-      opacity: 0.85;
+    p {
+      font-size: 1.2rem;
       margin-bottom: 2rem;
-      animation-delay: 0.6s;
+      opacity: 0.85;
+      line-height: 2;
     }
 
-    .content a {
+    a {
       display: inline-block;
-      padding: 0.9rem 2rem;
+      padding: 0.8rem 1.8rem;
       border: 1px solid #fff;
       color: #fff;
       text-decoration: none;
       transition: all 0.3s ease;
-      font-size: 0.95rem;
+      font-size: 1rem;
       letter-spacing: 0.05em;
-      animation-delay: 0.9s;
     }
 
-    .content a:hover {
+    a:hover {
       background-color: #fff;
       color: #000;
     }
@@ -85,48 +65,47 @@
       margin-top: 2rem;
       font-size: 0.9rem;
       opacity: 0.6;
-      animation: fadein 1.5s ease-out forwards;
-      animation-delay: 1.2s;
     }
 
     @keyframes fadein {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, #111 40%, #000 100%);
+      opacity: 0.06;
+      z-index: 0;
+      animation: liquidFlow 15s infinite ease-in-out;
+      pointer-events: none;
+    }
+
+    @keyframes liquidFlow {
+      0% { transform: scale(1) translate(0, 0); }
+      25% { transform: scale(1.03, 0.97) translate(-8px, 6px); }
+      50% { transform: scale(0.98, 1.02) translate(6px, -5px); }
+      75% { transform: scale(1.01, 1.01) translate(-3px, 2px); }
+      100% { transform: scale(1) translate(0, 0); }
+    }
   </style>
 </head>
 <body>
-
-  <!-- 背景：ゆらめく黒い液体風SVG -->
-  <svg class="bg" preserveAspectRatio="none" viewBox="0 0 100 100">
-    <defs>
-      <radialGradient id="grad" cx="50%" cy="50%" r="80%">
-        <stop offset="0%" stop-color="#111"/>
-        <stop offset="100%" stop-color="#000"/>
-      </radialGradient>
-      <filter id="wobble">
-        <feTurbulence id="turb" baseFrequency="0.01 0.01" numOctaves="3" seed="2">
-          <animate attributeName="baseFrequency" dur="12s" values="0.01 0.01; 0.02 0.005; 0.01 0.01" repeatCount="indefinite" />
-        </feTurbulence>
-        <feDisplacementMap in="SourceGraphic" scale="20"/>
-      </filter>
-    </defs>
-    <rect width="100%" height="100%" fill="url(#grad)" filter="url(#wobble)"/>
-  </svg>
-
-  <!-- コンテンツ部分 -->
-  <div class="content">
-    <h1>VOID.RUN</h1>
-    <p>今日の言葉：<br><strong>『 沈黙が咲いた夜、だれも知らない場所へ。』</strong></p>
-    <a href="https://paypal.me/dowadowa" target="_blank">捧げる（Support the Void）</a>
-    <p id="observer-id"></p>
-  </div>
+  <h1>VOID.RUN</h1>
+  <p>今日の言葉：<br><strong>『 沈黙が咲いた夜、だれも知らない場所へ。』</strong></p>
+  <a href="https://paypal.me/dowadowa" target="_blank">捧げる（Support the Void）</a>
+  <p id="observer-id"></p>
 
   <script>
     const observerNumber = String(Math.floor(Math.random() * 999) + 1).padStart(3, '0');
     document.getElementById("observer-id").textContent = `観測番号： #${observerNumber}`;
   </script>
-
 </body>
 </html>
+
 
