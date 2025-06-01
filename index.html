@@ -12,120 +12,100 @@
     }
 
     html, body {
-      background-color: #000;
-      color: #fff;
-      font-family: 'Helvetica Neue', Helvetica, sans-serif;
       height: 100vh;
+      width: 100%;
       overflow: hidden;
+      background: linear-gradient(to bottom, #000, #0b0b0b);
+      font-family: 'Yu Mincho', 'Hiragino Mincho Pro', serif;
+      color: #fff;
       display: flex;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
-      padding: 2rem;
-      line-height: 1.8;
       text-align: center;
-      animation: fadein 1.5s ease-out;
+      padding: 2rem;
+      position: relative;
     }
 
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 1.2rem;
-      letter-spacing: 0.1em;
-    }
-
-    p {
-      font-size: 1.1rem;
-      opacity: 0.85;
-      margin-bottom: 2rem;
-    }
-
-    a {
-      display: inline-block;
-      padding: 0.9rem 2rem;
-      border: 1px solid #fff;
-      color: #fff;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      font-size: 0.95rem;
-      letter-spacing: 0.05em;
-    }
-
-    a:hover {
-      background-color: #fff;
-      color: #000;
-    }
-
-    @keyframes fadein {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    .lyrics {
+      max-width: 800px;
+      white-space: pre-wrap;
+      font-size: 1.2rem;
+      line-height: 2;
+      z-index: 2;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 2rem;
+      border-radius: 12px;
+      backdrop-filter: blur(4px);
     }
 
     body::before {
       content: "";
-      position: fixed;
+      position: absolute;
       top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at center, #111 40%, #000 100%);
-      opacity: 0.08;
-      pointer-events: none;
-      animation: liquidFlow 15s infinite ease-in-out;
+      width: 100%; height: 100%;
+      background: url('https://grainy-gradients.vercel.app/noise.svg');
+      opacity: 0.05;
       z-index: 0;
+      animation: drift 20s infinite linear;
     }
 
-    @keyframes liquidFlow {
-      0% { transform: scale(1) translate(0, 0); }
-      25% { transform: scale(1.02, 0.98) translate(-3px, 3px); }
-      50% { transform: scale(0.98, 1.02) translate(4px, -2px); }
-      75% { transform: scale(1.01, 1.01) translate(-2px, 1px); }
-      100% { transform: scale(1) translate(0, 0); }
+    @keyframes drift {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-10px, -10px); }
     }
 
-    #observer-id {
-      margin-top: 2rem;
-      font-size: 0.9rem;
-      opacity: 0.6;
-    }
-
-    #audioButton {
-      margin-top: 1rem;
-      font-size: 0.8rem;
-      opacity: 0.4;
-      border: none;
-      background: none;
-      color: #aaa;
-      cursor: pointer;
+    audio {
+      display: none;
     }
   </style>
 </head>
 <body>
 
-  <h1>VOID.RUN</h1>
-  <p>今日の言葉：<br><strong>『 沈黙が咲いた夜、だれも知らない場所へ。』</strong></p>
-  <a href="https://paypal.me/dowadowa" target="_blank">捧げる（Support the Void）</a>
-  <p id="observer-id"></p>
-  <button id="audioButton">音を再生する</button>
+  <div class="lyrics">
+[Verse]<br>
+沈黙が咲いた夜に<br>
+月の光が道を描く<br>
+影が踊る木々の間で<br>
+風が囁く夢の果て<br><br>
 
-  <audio id="bgm" loop>
-    <source src="https://cdn.suno.ai/kzu2yYQ0Egg71vNH.mp3" type="audio/mpeg">
+[Chorus]<br>
+だれも知らない場所へ行こう<br>
+秘密の扉を開ける音<br>
+星のさざめきが導く道<br>
+私たちだけの世界が待つ<br><br>
+
+[Verse 2]<br>
+流れる時間が止まる瞬間<br>
+心が自由に羽ばたく場所<br>
+闇が優しく包む空間<br>
+全てを忘れられる夢の中<br><br>
+
+[Chorus]<br>
+だれも知らない場所へ行こう<br>
+秘密の扉を開ける音<br>
+星のさざめきが導く道<br>
+私たちだけの世界が待つ<br><br>
+
+[Bridge]<br>
+記憶が溶けて消える前に<br>
+今を掴んで抱きしめよう<br>
+瞬く星の下で誓う<br>
+ここが私の帰る場所<br><br>
+
+[Chorus]<br>
+だれも知らない場所へ行こう<br>
+秘密の扉を開ける音<br>
+星のさざめきが導く道<br>
+私たちだけの世界が待つ
+  </div>
+
+  <audio autoplay loop>
+    <source src="https://suno.com/s/kzu2yYQ0Egg71vNH" type="audio/mp3">
   </audio>
-
-  <script>
-    // 観測番号の生成
-    const observerNumber = String(Math.floor(Math.random() * 999) + 1).padStart(3, '0');
-    document.getElementById("observer-id").textContent = `観測番号： #${observerNumber}`;
-
-    // オーディオ再生（モバイル制限対応）
-    const bgm = document.getElementById('bgm');
-    const audioButton = document.getElementById('audioButton');
-    audioButton.addEventListener('click', () => {
-      bgm.play();
-      audioButton.style.display = 'none';
-    });
-  </script>
 
 </body>
 </html>
+
 
 
 
