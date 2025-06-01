@@ -16,6 +16,7 @@
       color: #fff;
       font-family: 'Helvetica Neue', Helvetica, sans-serif;
       height: 100vh;
+      overflow: hidden;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -23,21 +24,13 @@
       padding: 2rem;
       line-height: 1.8;
       text-align: center;
-      animation: fadein 1.5s ease-out;
       position: relative;
       z-index: 1;
     }
 
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 1.2rem;
-      letter-spacing: 0.1em;
-    }
-
-    p {
-      font-size: 1.1rem;
-      opacity: 0.85;
-      margin-bottom: 2rem;
+    h1, p, a {
+      position: relative;
+      z-index: 2;
     }
 
     a {
@@ -56,54 +49,53 @@
       color: #000;
     }
 
-    @keyframes fadein {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
+    .liquid-bg {
+      position: absolute;
       top: 0; left: 0;
       width: 100%;
       height: 100%;
-      background:
-        url('https://grainy-gradients.vercel.app/noise.svg'),
-        radial-gradient(circle, #111 40%, #000 100%);
-      background-blend-mode: overlay;
-      mix-blend-mode: lighten;
-      opacity: 0.08;
-      pointer-events: none;
-      animation: grainShift 20s infinite linear alternate,
-                 liquidFlow 12s infinite ease-in-out;
       z-index: 0;
     }
 
-    @keyframes grainShift {
-      0%   { transform: translate(0, 0); }
-      100% { transform: translate(-10px, -10px); }
+    .liquid-bg svg {
+      width: 100%;
+      height: 100%;
+      display: block;
     }
 
-    @keyframes liquidFlow {
-      0%   { transform: scale(1) translate(0, 0); }
-      25%  { transform: scale(1.03, 0.98) translate(-5px, 3px); }
-      50%  { transform: scale(0.97, 1.02) translate(4px, -2px); }
-      75%  { transform: scale(1.01, 1.01) translate(-2px, 1px); }
-      100% { transform: scale(1) translate(0, 0); }
+    .wave {
+      animation: waveMotion 8s ease-in-out infinite;
+      transform-origin: center;
+    }
+
+    @keyframes waveMotion {
+      0%, 100% { transform: translateY(0) scaleX(1); }
+      50% { transform: translateY(10px) scaleX(1.05); }
     }
   </style>
 </head>
 <body>
+  <div class="liquid-bg">
+    <svg viewBox="0 0 1200 800" preserveAspectRatio="none">
+      <path class="wave" fill="#111" fill-opacity="0.6" d="
+        M0,400 
+        Q300,350 600,400 
+        T1200,400 
+        V800 
+        H0 
+        Z">
+      </path>
+    </svg>
+  </div>
+
   <h1>VOID.RUN</h1>
   <p>今日の言葉：<br><strong>『 沈黙が咲いた夜、だれも知らない場所へ。』</strong></p>
   <a href="https://paypal.me/dowadowa" target="_blank">捧げる（Support the Void）</a>
   <p id="observer-id" style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.6;"></p>
 
   <script>
-    // 001〜999のランダムな観測番号を生成
     const observerNumber = String(Math.floor(Math.random() * 999) + 1).padStart(3, '0');
     document.getElementById("observer-id").textContent = `観測番号： #${observerNumber}`;
   </script>
 </body>
 </html>
-
