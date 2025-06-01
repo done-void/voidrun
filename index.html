@@ -66,5 +66,18 @@
   <h1>VOID.RUN</h1>
   <p>今日の言葉：<br><strong>『 沈黙が咲いた夜、だれも知らない場所へ。』</strong></p>
   <a href="https://paypal.me/dowadowa" target="_blank">捧げる（Support the Void）</a>
+  <p id="observer-id" style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.6;"></p>
+
+<script>
+  // 001〜999のランダムな観測番号を生成
+  const observerNumber = String(Math.floor(Math.random() * 999) + 1).padStart(3, '0');
+
+  // 表示する文
+  const message = `観測番号： #${observerNumber}`;
+
+  // 表示エリアに反映
+  document.getElementById("observer-id").textContent = message;
+</script>
+
 </body>
 </html>
