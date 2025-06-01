@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>VOID.RUN</title>
-  <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -17,7 +16,7 @@
       width: 100%;
       background: #000;
       color: #fff;
-      font-family: 'UnifrakturCook', cursive;
+      font-family: 'Helvetica Neue', Helvetica, sans-serif;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -66,7 +65,6 @@
       z-index: 2;
     }
 
-    /* 液体風のゆらぎ背景 */
     body::before {
       content: "";
       position: absolute;
@@ -88,7 +86,6 @@
       100% { transform: scale(1) translate(0, 0); }
     }
 
-    /* ノイズ粒子オーバーレイ */
     body::after {
       content: "";
       position: absolute;
@@ -117,7 +114,6 @@
   <p id="time-display"></p>
 
   <script>
-    // タイピング風表示
     const text = '『 沈黙が咲いた夜、\nだれも知らない場所へ。』';
     let i = 0;
     const target = document.getElementById('typed-text');
@@ -130,22 +126,21 @@
     }
     typeWriter();
 
-    // 観測番号
     const observerNumber = String(Math.floor(Math.random() * 999) + 1).padStart(3, '0');
     document.getElementById("observer-id").textContent = `観測番号： #${observerNumber}`;
 
-    // 現在時刻
     function updateTime() {
       const now = new Date();
       const t = `${now.getFullYear()}/${now.getMonth()+1}/${now.getDate()} ${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`;
       document.getElementById("time-display").textContent = `観測時刻： ${t}`;
     }
     updateTime();
-    setInterval(updateTime, 60000); // 1分ごと更新
+    setInterval(updateTime, 60000);
   </script>
 
 </body>
 </html>
+
 
 
 
