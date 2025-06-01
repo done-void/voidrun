@@ -4,10 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>VOID.RUN</title>
-
-  <!-- 中二病風日本語フォント -->
-  <link href="https://fonts.googleapis.com/css2?family=Zen+Kurenaido&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -16,44 +13,45 @@
     }
 
     html, body {
+      height: 100vh;
       width: 100%;
-      height: 100%;
-      background-color: #000;
-      font-family: 'Zen Kurenaido', sans-serif;
+      background: #000;
       color: #fff;
+      font-family: 'UnifrakturCook', cursive;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       padding: 2rem;
       text-align: center;
-      animation: fadein 1.5s ease-out;
       overflow: hidden;
       position: relative;
     }
 
     h1 {
       font-size: 3rem;
-      margin-bottom: 1.5rem;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+      z-index: 2;
     }
 
-    p {
-      font-size: 1.2rem;
-      margin-bottom: 2rem;
-      opacity: 0.85;
-      line-height: 2;
+    strong {
+      font-size: 1.4rem;
+      line-height: 2.2rem;
+      white-space: pre-line;
+      z-index: 2;
     }
 
     a {
+      margin-top: 2rem;
       display: inline-block;
-      padding: 0.8rem 1.8rem;
+      padding: 0.7rem 1.5rem;
       border: 1px solid #fff;
       color: #fff;
       text-decoration: none;
       transition: all 0.3s ease;
       font-size: 1rem;
-      letter-spacing: 0.05em;
+      z-index: 2;
     }
 
     a:hover {
@@ -61,51 +59,93 @@
       color: #000;
     }
 
-    #observer-id {
-      margin-top: 2rem;
+    #observer-id, #time-display {
+      margin-top: 1.5rem;
       font-size: 0.9rem;
-      opacity: 0.6;
+      opacity: 0.5;
+      z-index: 2;
     }
 
-    @keyframes fadein {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
+    /* 液体風のゆらぎ背景 */
     body::before {
       content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle, #111 40%, #000 100%);
-      opacity: 0.06;
-      z-index: 0;
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at center, rgba(20, 20, 20, 0.4), #000 80%);
       animation: liquidFlow 15s infinite ease-in-out;
-      pointer-events: none;
+      z-index: 0;
+      filter: blur(40px);
     }
 
     @keyframes liquidFlow {
       0% { transform: scale(1) translate(0, 0); }
-      25% { transform: scale(1.03, 0.97) translate(-8px, 6px); }
-      50% { transform: scale(0.98, 1.02) translate(6px, -5px); }
-      75% { transform: scale(1.01, 1.01) translate(-3px, 2px); }
+      25% { transform: scale(1.05, 0.95) translate(-10px, 10px); }
+      50% { transform: scale(0.95, 1.05) translate(10px, -10px); }
+      75% { transform: scale(1.02, 1.02) translate(-5px, 5px); }
       100% { transform: scale(1) translate(0, 0); }
+    }
+
+    /* ノイズ粒子オーバーレイ */
+    body::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://grainy-gradients.vercel.app/noise.svg');
+      opacity: 0.02;
+      pointer-events: none;
+      z-index: 1;
+      animation: grainShift 30s infinite linear alternate;
+    }
+
+    @keyframes grainShift {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-10px, -10px); }
     }
   </style>
 </head>
 <body>
+
   <h1>VOID.RUN</h1>
-  <p>今日の言葉：<br><strong>『 沈黙が咲いた夜、だれも知らない場所へ。』</strong></p>
+  <p><strong id="typed-text"></strong></p>
   <a href="https://paypal.me/dowadowa" target="_blank">捧げる（Support the Void）</a>
   <p id="observer-id"></p>
+  <p id="time-display"></p>
 
   <script>
+    // タイピング風表示
+    const text = '『 沈黙が咲いた夜、\nだれも知らない場所へ。』';
+    let i = 0;
+    const target = document.getElementById('typed-text');
+    function typeWriter() {
+      if (i < text.length) {
+        target.textContent += text.charAt(i);
+        i++;
+        setTimeout(typeWriter, 90);
+      }
+    }
+    typeWriter();
+
+    // 観測番号
     const observerNumber = String(Math.floor(Math.random() * 999) + 1).padStart(3, '0');
     document.getElementById("observer-id").textContent = `観測番号： #${observerNumber}`;
+
+    // 現在時刻
+    function updateTime() {
+      const now = new Date();
+      const t = `${now.getFullYear()}/${now.getMonth()+1}/${now.getDate()} ${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`;
+      document.getElementById("time-display").textContent = `観測時刻： ${t}`;
+    }
+    updateTime();
+    setInterval(updateTime, 60000); // 1分ごと更新
   </script>
+
 </body>
 </html>
+
 
 
