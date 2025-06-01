@@ -16,7 +16,7 @@
       width: 100%;
       background: #000;
       color: #fff;
-      font-family: 'Helvetica Neue', 'Noto Sans JP', 'Roboto', sans-serif;
+      font-family: 'Helvetica Neue', 'Noto Sans JP', sans-serif;
       font-weight: 300;
       display: flex;
       flex-direction: column;
@@ -28,20 +28,39 @@
       position: relative;
     }
 
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("https://files.oaiusercontent.com/file-00000000733061fd845c37b1154c38f8/A_digital_painting_depicts_an_ancient,_otherworldl.png");
+      background-size: cover;
+      background-position: center;
+      opacity: 0.15;
+      filter: blur(6px);
+      z-index: 0;
+      animation: slowZoom 80s ease-in-out infinite alternate;
+    }
+
+    @keyframes slowZoom {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.05); }
+    }
+
     h1 {
-      font-size: 3rem;
+      font-size: 2.8rem;
+      margin-bottom: 1.2rem;
       letter-spacing: 0.1em;
-      margin-bottom: 1rem;
-      font-weight: 300;
       z-index: 2;
     }
 
     strong {
-      font-size: 1.4rem;
-      line-height: 2.2rem;
-      white-space: pre-line;
+      font-size: 1.2rem;
+      line-height: 2rem;
       font-weight: 300;
       z-index: 2;
+      white-space: pre-line;
     }
 
     a {
@@ -64,48 +83,9 @@
 
     #observer-id, #time-display {
       margin-top: 1.5rem;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       opacity: 0.5;
       z-index: 2;
-    }
-
-    body::before {
-      content: "";
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle at center, rgba(20, 20, 20, 0.4), #000 80%);
-      animation: liquidFlow 15s infinite ease-in-out;
-      z-index: 0;
-      filter: blur(40px);
-    }
-
-    @keyframes liquidFlow {
-      0% { transform: scale(1) translate(0, 0); }
-      25% { transform: scale(1.05, 0.95) translate(-10px, 10px); }
-      50% { transform: scale(0.95, 1.05) translate(10px, -10px); }
-      75% { transform: scale(1.02, 1.02) translate(-5px, 5px); }
-      100% { transform: scale(1) translate(0, 0); }
-    }
-
-    body::after {
-      content: "";
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('https://grainy-gradients.vercel.app/noise.svg');
-      opacity: 0.02;
-      pointer-events: none;
-      z-index: 1;
-      animation: grainShift 30s infinite linear alternate;
-    }
-
-    @keyframes grainShift {
-      0% { transform: translate(0, 0); }
-      100% { transform: translate(-10px, -10px); }
     }
   </style>
 </head>
@@ -144,6 +124,7 @@
 
 </body>
 </html>
+
 
 
 
